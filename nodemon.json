@@ -1,0 +1,7 @@
+{
+	"env": {
+		"dbUser": "",
+		"dbPass": "",
+		"dbName": "node-mongo-graph-api-react"
+	}
+}

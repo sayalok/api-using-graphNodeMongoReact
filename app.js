@@ -2,11 +2,10 @@ const express           = require('express')
 const bodyParser        = require('body-parser')
 const graphqlHttp       = require('express-graphql')
 const { buildSchema }   = require('graphql')
-
+const mongoose			= require("mongoose")
+const Product 			= require('./models/product')
 
 const app = express();
-
-const productList = []
 
 app.use(bodyParser.json())
 
@@ -43,19 +42,30 @@ var schemaStrcture = buildSchema(`
 
 var rootValStrcture = { 
 	products: () => {
-		return productList
+		return Product.find()
+			.then(res => {
+				return res
+			})
+			.catch(err => {
+				throw err
+			})
 	},
 	createProduct: args => {
-		const product = {
-			_id: Math.random().toString(),
+		const product = new Product({
 			title: args.productInput.title,
 			desc: args.productInput.desc,
 			price: +args.productInput.price,
-			date: args.productInput.date
-		};
-		console.log(args)
-		productList.push(product)
+			date: new Date(args.productInput.date)
+		})
 		return product
+			.save()
+			.then(res => {
+				return res;
+			})
+			.catch(err => {
+				console.log(err)
+				throw err;
+			})
 	}
  };
 
@@ -66,4 +76,17 @@ app.use('/api', graphqlHttp({
     graphiql: true
 }))
 
-app.listen(3000)
+mongoose.connect(
+	`
+		mongodb+srv://${process.env.dbUser}:${process.env.dbPass}@cluster0-bgzjc.mongodb.net/
+		${process.env.dbName}
+		?retryWrites=true&w=majority
+	`,
+	{
+    	useNewUrlParser: true
+	}
+).then(() => {
+ 	console.log('connect...')
+ 	app.listen(3000)
+})
+ .catch(err => console.log(err))
