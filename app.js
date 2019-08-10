@@ -6,15 +6,33 @@ const { buildSchema }   = require('graphql')
 
 const app = express();
 
+const productList = []
+
 app.use(bodyParser.json())
 
 var schemaStrcture = buildSchema(`
+	
+	type ProductType {
+		_id: ID!
+		title: String!
+		desc: String!
+		price: Float!
+		date: String!
+	}
+
+	input ProductInput {
+		title: String!
+		desc: String!
+		price: Float!
+		date: String!
+	}
+
 	type RootQuery {
-		events: [String!]!
+		products: [ProductType!]!
 	}
 
 	type RootMutation {
-		createEvent(name: String): String
+		createProduct(productInput:ProductInput): ProductType
 	}
 
 	schema {
@@ -24,11 +42,20 @@ var schemaStrcture = buildSchema(`
 `);
 
 var rootValStrcture = { 
-	events: () => {
-		return ['faisal','md','foysal']
+	products: () => {
+		return productList
 	},
-	createEvent: args => {
-		return args.name
+	createProduct: args => {
+		const product = {
+			_id: Math.random().toString(),
+			title: args.productInput.title,
+			desc: args.productInput.desc,
+			price: +args.productInput.price,
+			date: args.productInput.date
+		};
+		console.log(args)
+		productList.push(product)
+		return product
 	}
  };
 
