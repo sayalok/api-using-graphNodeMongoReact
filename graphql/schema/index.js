@@ -2,6 +2,14 @@ const { buildSchema }   = require('graphql')
 
 module.exports = buildSchema(`
 	
+	type PurchaseType {
+		_id: ID!
+		productId: ProductType!
+		users: UserType!
+		createdAt: String!
+		updatedAt: String!
+	}
+
 	type ProductType {
 		_id: ID!
 		title: String!
@@ -33,11 +41,14 @@ module.exports = buildSchema(`
 	type RootQuery {
 		products: [ProductType!]!
 		users: [UserType!]!
+		purchase: [PurchaseType!]!
 	}
 
 	type RootMutation {
 		createProduct(productInput:ProductInput): ProductType
 		createUser(userInput: UserInput): UserType
+		createPurchase(productId: ID!): PurchaseType!
+		cancelPurchase(purchaseId: ID!): ProductType!
 	}
 
 	schema {

@@ -1,6 +1,7 @@
 const bcrypt 			= require("bcryptjs") 
 const Product 			= require('../../models/product')
 const User 				= require('../../models/user')
+const Purchase			= require('../../models/purchase')
 
 const getProducts = productIds => {
 	return Product.find({_id: {$in: productIds}})
@@ -15,6 +16,18 @@ const getProducts = productIds => {
 					.catch(err => {
 						throw err
 					})
+}
+
+const getSingleProduct = async productId => {
+	try {
+		const product = await Product.findById(productId)
+		return {
+			...product._doc,
+			createdBy: getUser.bind(this, product.createdBy)
+		}
+	} catch (err) {
+		throw err
+	}
 }
 
 const getUser = userId => {
@@ -56,6 +69,22 @@ module.exports = {
 			.catch(err => {
 				throw err
 			})
+	},
+	purchase: async () => {
+		try {
+			const purchaseList = await Purchase.find()
+			return purchaseList.map(purchaseItem => {
+				return {
+					...purchaseItem._doc,
+					productId: getSingleProduct.bind(this, purchaseItem.productId),
+					users: getUser.bind(this, purchaseItem.users),
+					createdAt: new Date(purchaseItem.createdAt).toISOString(),
+					updateddAt: new Date(purchaseItem.updatedAt).toISOString()
+				}
+			})
+		} catch (err) {
+			throw err
+		}
 	},
 	createProduct: args => {
 		const product = new Product({
@@ -112,5 +141,33 @@ module.exports = {
 			.catch(err => {
 				throw err
 			})
+	},
+	createPurchase: async args => {
+		const getProductId = await Product.findOne({_id: args.productId})
+		const purchase = new Purchase({
+			users: "5d53c58f2ac9eb077acaac71",
+			productId: getProductId
+		})
+		const result = await purchase.save()
+		return {
+			...result._doc,
+			productId: getSingleProduct.bind(this, result.productId),
+			users: getUser.bind(this, result.users),
+			createdAt: new Date(result.createdAt).toISOString(),
+			updateddAt: new Date(result.updatedAt).toISOString()
+		}
+	},
+	cancelPurchase: async args => {
+		try {
+			const fetchpurchaseData = await Purchase.findById(args.purchaseId).populate('productId')
+			const purchaseDetails = {
+				...fetchpurchaseData.productId._doc,
+				createdBy: getUser.bind(this, fetchpurchaseData.users),
+			}
+			await Purchase.deleteOne({_id: args.purchaseId})
+			return purchaseDetails
+		} catch (err) {
+			throw err
+		}
 	}
- };
+};
