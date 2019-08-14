@@ -18,6 +18,10 @@ const productSchema = new Schema({
 		type: Date,
 		required: true
 	},
+	createdBy:  {
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
 })
 
 module.exports = mongoose.model('Products', productSchema)

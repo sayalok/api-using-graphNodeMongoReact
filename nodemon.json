@@ -1,7 +1,7 @@
 {
 	"env": {
-		"dbUser": "",
-		"dbPass": "",
+		"dbUser": "sayalok",
+		"dbPass": "sayalook00",
 		"dbName": "node-mongo-graph-api-react"
 	}
 }
