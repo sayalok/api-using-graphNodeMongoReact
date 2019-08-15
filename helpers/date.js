@@ -1,0 +1,1 @@
+exports.DateFormation = date => new Date(date).toISOString()
