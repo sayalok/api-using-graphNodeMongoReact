@@ -26,6 +26,12 @@ module.exports = buildSchema(`
 		createdProduct: [ProductType!]
 	}
 
+	type AuthData {
+		userID: ID!
+		token: String!
+		tokenExp: Int!
+	}
+
 	input ProductInput {
 		title: String!
 		desc: String!
@@ -42,6 +48,7 @@ module.exports = buildSchema(`
 		products: [ProductType!]!
 		users: [UserType!]!
 		purchase: [PurchaseType!]!
+		login(email: String!, password: String!): AuthData!
 	}
 
 	type RootMutation {

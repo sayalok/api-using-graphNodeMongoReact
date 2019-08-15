@@ -4,7 +4,8 @@ const Product 				= require('../../models/product')
 const {dataProcess, dataProcessPurchase } 		= require('./resloverHelpers')
 
 module.exports = { 
-	purchase: async () => {
+	purchase: async (args, req) => {
+		if(!req.isAuth) throw new Error('User not authenticated!')
 		try {
 			const purchaseList = await Purchase.find()
 			return purchaseList.map(purchaseItem => {
@@ -14,16 +15,18 @@ module.exports = {
 			throw err
 		}
 	},
-	createPurchase: async args => {
+	createPurchase: async (args, req) => {
+		if(!req.isAuth) throw new Error('User not authenticated!')
 		const getProductId = await Product.findOne({_id: args.productId})
 		const purchase = new Purchase({
-			users: "5d53c58f2ac9eb077acaac71",
+			users: req.userId,
 			productId: getProductId
 		})
 		const result = await purchase.save()
 		return dataProcessPurchase(result)
 	},
-	cancelPurchase: async args => {
+	cancelPurchase: async (args, req) => {
+		if(!req.isAuth) throw new Error('User not authenticated!')
 		try {
 			const fetchpurchaseData = await Purchase.findById(args.purchaseId).populate('productId')
 			const purchaseDetails = dataProcess(fetchpurchaseData.productId)

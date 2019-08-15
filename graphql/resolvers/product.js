@@ -17,20 +17,21 @@ module.exports = {
 				throw err
 			})
 	},
-	createProduct: args => {
+	createProduct: (args, req) => {
+		if(!req.isAuth) throw new Error('User not authenticated!')
 		const product = new Product({
 			title: args.productInput.title,
 			desc: args.productInput.desc,
 			price: +args.productInput.price,
 			date: DateFormation(args.productInput.date),
-			createdBy: "5d53c58f2ac9eb077acaac71"
+			createdBy: req.userId
 		})
 		let newCreatedProduct;
 		return product
 			.save()
 			.then(res => {
 				newCreatedProduct = dataProcess(res)
-				return User.findById('5d53c58f2ac9eb077acaac71')
+				return User.findById(req.userId)
 			})
 			.then(user => {
 				if (!user) {
