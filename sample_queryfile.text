@@ -1,0 +1,84 @@
+mutation {
+  createProduct(productInput: {
+    title: "Product one",
+    desc: "product two",
+    price: 3.89,
+    date: "2019-08-10T15:03:49.752Z"
+  })
+  {
+    _id
+    title
+    desc
+    price
+    date
+  }
+}
+
+mutation {
+  createUser(userInput: {
+    email: "test@gmail.com",
+    password: "productTwo",
+  })
+  {
+    email
+    password
+  }
+}
+
+mutation {
+  createPurchase(productId: "5d53c6714d73d708edba1818"){
+    _id
+    users {
+      email
+    }
+    productId {
+      title
+      createdBy {
+        email
+      }
+    }
+  }
+}
+mutation {
+  cancelPurchase(purchaseId: "5d5584318876d046d0c26b78"){
+    title
+    desc
+    price
+    date
+    createdBy {
+      email
+    }
+  }
+}
+
+query {
+  products {
+    _id,
+    title
+    desc
+    price
+    date
+  }
+}
+
+query {
+  purchase {
+    _id
+    productId {
+      _id
+      title
+    }
+    users {
+      email
+    }
+    createdAt
+  }
+}
+
+query {
+  login(email: "test@gmail.com", password: "productTwo"){
+    userID
+    token
+    tokenExp
+  }
+}
