@@ -30,7 +30,6 @@ mongoose.connect(
     	useNewUrlParser: true
 	}
 ).then(() => {
- 	console.log('connect...')
  	app.listen(3030)
 })
- .catch(err => console.log(err))
+.catch(err => console.log(err))
