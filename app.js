@@ -31,6 +31,6 @@ mongoose.connect(
 	}
 ).then(() => {
  	console.log('connect...')
- 	app.listen(3000)
+ 	app.listen(3030)
 })
  .catch(err => console.log(err))
