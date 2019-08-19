@@ -1,7 +1,13 @@
 # Create a api using  with GraphQL, Node.js, MongoDB
 
 <h3>This project has two part</h3>
-<p>First part i develope an api </p>
+<p>First part i develope an api using </p>
+
+<ul>
+	<li>NodeJs</li>
+	<li> MongoDb</li>
+	<li>GraphQl</li>
+</ul>
 
 to run this project following instruction
 <ul>
