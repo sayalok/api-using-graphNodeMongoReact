@@ -52,8 +52,8 @@ module.exports = buildSchema(`
 	}
 
 	type RootMutation {
-		createProduct(productInput:ProductInput): ProductType
 		createUser(userInput: UserInput): UserType
+		createProduct(productInput:ProductInput): ProductType
 		createPurchase(productId: ID!): PurchaseType!
 		cancelPurchase(purchaseId: ID!): ProductType!
 	}
