@@ -1,6 +1,6 @@
 import React from 'react';
 
-const modalForm = props => {
+const modal = props => {
 	return (
 		<div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div className="modal-dialog" role="document">
@@ -20,4 +20,4 @@ const modalForm = props => {
 	)
 }
 
-export default modalForm;
+export default modal;
