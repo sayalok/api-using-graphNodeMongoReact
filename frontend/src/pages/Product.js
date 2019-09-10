@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AuthContext from '../context/auth-context';
 
 import Backdrop from '../inc/Backdrop/Backdrop';
 import Modal from '../inc/Modal/Modal';

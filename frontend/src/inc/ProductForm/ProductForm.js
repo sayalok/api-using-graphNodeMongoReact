@@ -3,8 +3,6 @@ import AuthContext from '../../context/auth-context';
 
 class ProductForm extends Component {
 
-	static contextType = AuthContext;
-
 	constructor(props) {
     	super(props);
 		this.titleRef 	= React.createRef();
@@ -12,16 +10,19 @@ class ProductForm extends Component {
 		this.dateRef 	= React.createRef();
 		this.descRef 	= React.createRef();
 	}
+
+	static contextType = AuthContext;
+
 	modalConfirmHandler = e => {
 		e.preventDefault();
 		const title 	= this.titleRef.current.value;
 		const price 	= +this.priceRef.current.value;
 		const date 		= this.dateRef.current.value;
 		const desc 		= this.descRef.current.value;
-		
+				
 		if(
 			title.trim().length === 0 ||
-			price.length === 0 ||
+			price <= 0 ||
 			date.trim().length  === 0 ||
 			desc.trim().length  === 0 
 		) 
@@ -29,17 +30,14 @@ class ProductForm extends Component {
 			return;
 		}
 
-		const product = { title, price, date, desc}
-		console.log(product)
-
 		const queryBody = {
 			query: `
 				mutation {
   					createProduct(productInput: {
-						    title: ${title},
-						    desc: ${desc},
+						    title: "${title}",
+						    desc: "${desc}",
 						    price: ${price},
-						    date: ${date}
+						    date: "${date}"
   						}
   					)
 				  	{
@@ -48,7 +46,7 @@ class ProductForm extends Component {
 					    desc
 					    price
 					    date
-					    creator {
+					    createdBy {
 					    	_id
 					    	email
 					    }
@@ -62,7 +60,7 @@ class ProductForm extends Component {
 			body: JSON.stringify(queryBody),
 			headers: {
 				'content-type': 'application/json',
-				'Aauthorization': 'Bearer ' + this.contextType.token
+				'Authorization': 'Bearer ' + this.context.token
 			}
 		})
 		.then(res => {
