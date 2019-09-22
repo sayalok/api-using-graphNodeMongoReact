@@ -15,11 +15,11 @@ const Header = props => (
 								</button>
 								<div className="collapse navbar-collapse" id="navbarSupportedContent">
 								    <ul className="navbar-nav ml-auto">
-								    	<li className="nav-item active">
-								        	<NavLink className="nav-link" to="product">Product</NavLink>
-								      	</li>
 								      	{ context.token && (
 								      		<React.Fragment>
+										      	<li className="nav-item active">
+										        	<NavLink className="nav-link" to="product">Product</NavLink>
+										      	</li>
 									      		<li className="nav-item">
 													<NavLink className="nav-link" to="cart">Cart</NavLink>
 									      		</li>

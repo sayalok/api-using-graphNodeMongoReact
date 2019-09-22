@@ -43,7 +43,7 @@ class App extends Component {
 		            	<div className="container">
 			            	<Switch>
 				                {!this.state.token &&  <Redirect from="/cart" to="/auth" exact/>}
-				                {this.state.token &&  <Redirect from="/" to="/product" exact/>}
+				                {!this.state.token &&  <Redirect from="/product" to="/auth" exact/>}
 				                {this.state.token &&  <Redirect from="/auth" to="/product" exact/>}
 
 				                {!this.state.token &&  (<Route path="/auth" component={Auth}/>)}

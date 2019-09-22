@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Backdrop from '../inc/Backdrop/Backdrop';
 import Modal from '../inc/Modal/Modal';
 import ProductForm from '../inc/ProductForm/ProductForm';
+import ProductList from '../inc/ProductList/ProductList';
 
 class Product extends Component {
     
@@ -55,9 +56,6 @@ class Product extends Component {
         })
     }
     render() {
-        const productLists = this.state.products.map(product => {
-            return  <li key={product._id} className="list-group-item">{product.title}</li>
-        })
         return (
             <React.Fragment>
             	<Backdrop/>
@@ -69,10 +67,7 @@ class Product extends Component {
 				<Modal title="Add Product">
 					<ProductForm/>
 				</Modal>
-                <h2>Product List</h2>
-                <ul className="list-group">
-                    {productLists}
-                </ul>
+                <ProductList productLists={this.state.products}/>    
             </React.Fragment>
         );
     }
