@@ -38,5 +38,6 @@ mongoose.connect(
 	}
 ).then(() => {
  	app.listen(3030)
+  console.log('Please visit http://localhost:3030/api')
 })
 .catch(err => console.log(err))
